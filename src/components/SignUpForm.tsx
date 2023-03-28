@@ -1,15 +1,21 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [name, setName] = useState<string>();
 
   return (
     <FormContainer>
       <Form>
-        <h1>Acesse sua conta</h1>
+        <h1>Cadastre sua conta</h1>
+        <FormInput
+          placeholder="Nome"
+          onChange={(e) => setName(e.target.value)}
+        />
         <FormInput
           placeholder="E-mail"
           onChange={(e) => setEmail(e.target.value)}
@@ -18,9 +24,13 @@ export default function SignInForm() {
           placeholder="Senha"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button>Entrar</button>
+        <FormInput
+          placeholder="Confirme a senha"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <button>Cadastrar</button>
         <p>
-          Não está cadastrado? <Link to={"/signup"}>Clique aqui</Link>
+          Já está cadastrado? <Link to={"/"}>Clique aqui</Link>
         </p>
       </Form>
     </FormContainer>
