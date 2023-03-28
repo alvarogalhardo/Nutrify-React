@@ -1,15 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import SignIn from "./pages/Sign-in";
+import { useContext } from "react";
+import UserContext from "./contexts/userContext";
+import AuthRoutes from "./routes/auth.routes";
+import UnauthRoutes from "./routes/unauth.routes";
 
 function App(): JSX.Element {
-  return <div className="App">
-    <BrowserRouter>
-    <Routes>
-      <Route index element={<Home/>}/>
-    </Routes>
-    </BrowserRouter>
-  </div>;
+  const { token } = useContext(UserContext);
+  return <div className="App">{token ? <AuthRoutes /> : <UnauthRoutes />}</div>;
 }
 
 export default App;
