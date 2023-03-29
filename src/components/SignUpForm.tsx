@@ -1,34 +1,125 @@
 import styled from "styled-components";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const Alert = withReactContent(Swal);
+
+enum Role {
+  "NUTRITIONIST",
+  "PATIENT",
+}
+
+type Form = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: Role;
+};
 
 export default function SignUpForm() {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
-  const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [name, setName] = useState<string>();
+  const [formEnabled, setFormEnabled] = useState(true);
+  const [form, setForm] = useState<Form>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: Role.NUTRITIONIST,
+  });
+
+  console.log(form);
+
+  async function submitForm(e: FormEvent) {
+    e.preventDefault();
+    if (checkForm()) {
+    }
+  }
+
+  function handleForm(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value.trim() });
+  }
+
+  function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
+    const { value } = e.target;
+    if (value === "0") {
+      setForm({ ...form, role: Role.NUTRITIONIST });
+    }
+    if (value === "1") {
+      setForm({ ...form, role: Role.PATIENT });
+    }
+  }
+
+  function checkForm() {
+    const { name, email, password, confirmPassword } = form;
+    console.log(email.length);
+
+    if (
+      email.length === 0 ||
+      name.length === 0 ||
+      password.length === 0 ||
+      confirmPassword.length === 0 ||
+      password !== confirmPassword
+    ) {
+      Alert.fire({
+        icon: "warning",
+        background: "#f0ead2",
+        text: "Verifique os campos e tente novamente!",
+        color: "#dda15e",
+        confirmButtonColor: "#a98467",
+      });
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   return (
     <FormContainer>
-      <Form>
+      <Form id="sign-up-form" onSubmit={submitForm}>
         <h1>Cadastre sua conta</h1>
         <FormInput
+          type="text"
           placeholder="Nome"
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          onChange={handleForm}
         />
         <FormInput
+          type="email"
           placeholder="E-mail"
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          onChange={handleForm}
         />
         <FormInput
+          type="password"
           placeholder="Senha"
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          onChange={handleForm}
         />
         <FormInput
+          type="password"
           placeholder="Confirme a senha"
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          name="confirmPassword"
+          onChange={handleForm}
         />
-        <button>Cadastrar</button>
+        <label>
+          {" "}
+          Selecione seu papel
+          <Select
+            name="role"
+            id="role"
+            form="sign-up-form"
+            defaultValue={Role.NUTRITIONIST}
+            onChange={handleSelect}
+          >
+            <option value={Role.NUTRITIONIST}>Nutricionista</option>
+            <option value={Role.PATIENT}>Paciente</option>
+          </Select>
+        </label>
+
+        <button type="submit">Cadastrar</button>
         <p>
           Já está cadastrado? <Link to={"/"}>Clique aqui</Link>
         </p>
@@ -75,6 +166,11 @@ const Form = styled.form`
       text-decoration: underline;
     }
   }
+  label {
+    font-size: 11px;
+    margin: 5px 0;
+    color: #6c584c;
+  }
 `;
 
 const FormInput = styled.input`
@@ -86,4 +182,15 @@ const FormInput = styled.input`
     font-size: small;
     color: #a98467;
   }
+`;
+
+const Select = styled.select`
+  cursor: pointer;
+  color: #a98467;
+  background-color: #f0ead2;
+  font-family: "Roboto", sans-serif;
+  font-size: small;
+  height: 30px;
+  border-radius: 5px;
+  margin: 5px 0;
 `;
