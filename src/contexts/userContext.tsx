@@ -4,6 +4,7 @@ import {
   ReactNode,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 import { User } from "../protocols";
 
@@ -35,10 +36,9 @@ const UserContext = createContext(defaultState);
 export default UserContext;
 
 export function UserProvider({ children }: ProviderProps) {
-  const localData: any = localStorage.getItem("Nutrify");
-  const parsedData = JSON.parse(localData);
-  console.log(localData,'local');
-  
+  let localData: any = localStorage.getItem("Nutrify");
+  let parsedData = JSON.parse(localData);
+
   const [token, setToken] = useState<string>(() => {
     return parsedData?.token ? parsedData.token : null;
   });
@@ -48,6 +48,11 @@ export function UserProvider({ children }: ProviderProps) {
   const [user, setUser] = useState<UserContext>(() => {
     return parsedData ? parsedData : null;
   });
+
+  useEffect(() => {
+    localData = localStorage.getItem("Nutrify");
+    parsedData = JSON.parse(localData);
+  }, [token]);
 
   return (
     <UserContext.Provider value={{ user, setUser, token, setToken }}>

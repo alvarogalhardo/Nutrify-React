@@ -5,12 +5,11 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Role, SignUpFormType } from "../protocols";
 import { signUpReq } from "../services/authApi";
-import { ApplicationError } from "../protocols";
+import { AxiosError } from "axios";
 
 const Alert = withReactContent(Swal);
 
 export default function SignUpForm() {
-  const [formEnabled, setFormEnabled] = useState(true);
   const [form, setForm] = useState<SignUpFormType>({
     name: "",
     email: "",
@@ -22,7 +21,6 @@ export default function SignUpForm() {
   const navigate = useNavigate();
 
   async function submitForm(e: FormEvent) {
-    setFormEnabled(false);
     const { name, email, password } = form;
     e.preventDefault();
     if (checkForm()) {
@@ -30,21 +28,19 @@ export default function SignUpForm() {
       try {
         await signUpReq(name, email, password);
         Alert.fire({
-          icon:"success",
-          background:"#dde5b6",
-          timer:2000,
-          text:"Cadastrado com sucesso!"
-        })
-        setFormEnabled(true);
+          icon: "success",
+          background: "#dde5b6",
+          timer: 2000,
+          text: "Cadastrado com sucesso!",
+        });
         navigate("/");
       } catch (err) {
         Alert.fire({
           icon: "error",
           background: "#f0ead2",
-          title: "Erro!",
-          timer:2000
+          timer: 2000,
+          text: "E-mail já cadastrado!",
         });
-        setFormEnabled(true);
       }
     }
   }

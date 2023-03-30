@@ -13,7 +13,13 @@ export enum Role {
     "PATIENT",
 }
 
-export type SignInResponse = Pick<User, "id" | "email">;
+export type SignInResponse = {
+    user: {
+        id: number,
+        email: string,
+    },
+    token: string
+};
 
 export type SignUpResponse = Pick<User, "id" | "name" | "email">;
 

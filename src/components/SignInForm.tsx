@@ -1,24 +1,91 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { SignInFormType, SignInResponse } from "../protocols";
+import { signInReq } from "../services/authApi";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import UserContext from "../contexts/userContext";
+
+const Alert = withReactContent(Swal);
 
 export default function SignInForm() {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [form, setForm] = useState<SignInFormType>({
+    email: "",
+    password: "",
+  });
+  const { setUser, setToken } = useContext(UserContext);
+
+  function storeData(params: SignInResponse) {
+    window.localStorage.setItem("Nutrify", JSON.stringify(params));
+  }
+
+  async function submitForm(e: FormEvent) {
+    e.preventDefault();
+    const { email, password } = form;
+
+    if (checkForm()) {
+      try {
+        const response = await signInReq(email, password);
+        storeData(response);
+        setUser(response.user);
+        setToken(response.token);
+
+        Alert.fire({
+          icon: "success",
+          background: "#dde5b6",
+          timer: 2000,
+          text: "Acessado com sucesso!",
+        });
+      } catch (err) {
+        Alert.fire({
+          icon: "error",
+          background: "#f0ead2",
+          timer: 2000,
+          text: "E-mail ou senha incorretos!",
+        });
+      }
+    }
+  }
+
+  function checkForm() {
+    const { email, password } = form;
+    if (email.length === 0 || password.length === 0) {
+      Alert.fire({
+        icon: "warning",
+        background: "#f0ead2",
+        text: "Verifique os campos e tente novamente!",
+        color: "#dda15e",
+        confirmButtonColor: "#a98467",
+      });
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function handleForm(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value.trim() });
+  }
 
   return (
     <FormContainer>
-      <Form>
+      <Form id="sign-in-form" onSubmit={submitForm}>
         <h1>Acesse sua conta</h1>
         <FormInput
           placeholder="E-mail"
-          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          name="email"
+          onChange={handleForm}
         />
         <FormInput
           placeholder="Senha"
-          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          name="password"
+          onChange={handleForm}
         />
-        <button>Entrar</button>
+        <button type="submit">Entrar</button>
         <p>
           Não está cadastrado? <Link to={"/signup"}>Clique aqui</Link>
         </p>
