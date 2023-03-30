@@ -1,27 +1,17 @@
 import styled from "styled-components";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { Role, SignUpFormType } from "../protocols";
+import { signUpReq } from "../services/authApi";
+import { ApplicationError } from "../protocols";
 
 const Alert = withReactContent(Swal);
 
-enum Role {
-  "NUTRITIONIST",
-  "PATIENT",
-}
-
-type Form = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  role: Role;
-};
-
 export default function SignUpForm() {
   const [formEnabled, setFormEnabled] = useState(true);
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<SignUpFormType>({
     name: "",
     email: "",
     password: "",
@@ -29,11 +19,33 @@ export default function SignUpForm() {
     role: Role.NUTRITIONIST,
   });
 
-  console.log(form);
+  const navigate = useNavigate();
 
   async function submitForm(e: FormEvent) {
+    setFormEnabled(false);
+    const { name, email, password } = form;
     e.preventDefault();
     if (checkForm()) {
+      delete form.confirmPassword;
+      try {
+        await signUpReq(name, email, password);
+        Alert.fire({
+          icon:"success",
+          background:"#dde5b6",
+          timer:2000,
+          text:"Cadastrado com sucesso!"
+        })
+        setFormEnabled(true);
+        navigate("/");
+      } catch (err) {
+        Alert.fire({
+          icon: "error",
+          background: "#f0ead2",
+          title: "Erro!",
+          timer:2000
+        });
+        setFormEnabled(true);
+      }
     }
   }
 
@@ -54,13 +66,11 @@ export default function SignUpForm() {
 
   function checkForm() {
     const { name, email, password, confirmPassword } = form;
-    console.log(email.length);
-
     if (
       email.length === 0 ||
       name.length === 0 ||
       password.length === 0 ||
-      confirmPassword.length === 0 ||
+      confirmPassword?.length === 0 ||
       password !== confirmPassword
     ) {
       Alert.fire({
@@ -155,9 +165,6 @@ const Form = styled.form`
     box-shadow: 1px 1px 5px 0px rgba(40, 54, 24, 1);
     color: #dda15e;
     font-family: "Raleway", sans-serif;
-    :focus {
-      box-shadow: inset 1px 1px 5px 0px rgba(40, 54, 24, 1);
-    }
   }
   p {
     font-size: 12px;

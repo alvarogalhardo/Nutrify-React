@@ -4,7 +4,9 @@ import AuthRoutes from "./routes/auth.routes";
 import UnauthRoutes from "./routes/unauth.routes";
 
 function App(): JSX.Element {
-  const { token } = useContext(UserContext);
+  const { user, setUser, token, setToken } = useContext(UserContext);
+  console.log(user);
+  
   return <div className="App">{token ? <AuthRoutes /> : <UnauthRoutes />}</div>;
 }
 

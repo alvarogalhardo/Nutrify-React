@@ -7,7 +7,6 @@ export default function AuthRoutes() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Home />} path={"/"} />
-        {/* <Route element={<SignUp />} path={"/signup"} /> */}
       </Routes>
     </BrowserRouter>
   );

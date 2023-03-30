@@ -5,20 +5,18 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-
-export type User = {
-  id: number;
-  email: string;
-};
+import { User } from "../protocols";
 
 type ProviderProps = {
   children: ReactNode;
 };
 
+type UserContext = Pick<User, "id" | "email">;
+
 export interface UserContextInterface {
-  user: User;
+  user: UserContext;
   token: string;
-  setUser: Dispatch<SetStateAction<User>>;
+  setUser: Dispatch<SetStateAction<UserContext>>;
   setToken: Dispatch<SetStateAction<string>>;
 }
 
@@ -39,14 +37,15 @@ export default UserContext;
 export function UserProvider({ children }: ProviderProps) {
   const localData: any = localStorage.getItem("Nutrify");
   const parsedData = JSON.parse(localData);
-
+  console.log(localData,'local');
+  
   const [token, setToken] = useState<string>(() => {
     return parsedData?.token ? parsedData.token : null;
   });
 
   delete parsedData?.token;
 
-  const [user, setUser] = useState<User>(() => {
+  const [user, setUser] = useState<UserContext>(() => {
     return parsedData ? parsedData : null;
   });
 
