@@ -13,4 +13,5 @@ const Content = styled.h1`
   font-family: "Raleway", sans-serif;
   font-size: 35px;
   color: #283618;
+  text-shadow: 1px 1px #dda15e;
 `;

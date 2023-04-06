@@ -38,6 +38,8 @@ export default function SignInForm() {
           text: "Acessado com sucesso!",
         });
       } catch (err) {
+        console.log(err);
+        
         Alert.fire({
           icon: "error",
           background: "#f0ead2",
