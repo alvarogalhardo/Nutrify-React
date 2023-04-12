@@ -6,16 +6,15 @@ import PatientForm from "../components/PatientForm";
 
 export default function Home() {
   const [patientForm, setPatientForm] = useState<boolean>(false);
+ 
 
   return (
     <>
       <Header />
       <Container>
         <Dashboard setPatientForm={setPatientForm} />
-      {patientForm && <PatientForm setPatientForm={setPatientForm} />}
-
+        {patientForm && <PatientForm setPatientForm={setPatientForm} />}
       </Container>
-
     </>
   );
 }

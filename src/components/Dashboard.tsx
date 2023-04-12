@@ -2,14 +2,40 @@ import styled from "styled-components";
 import Title from "./Title";
 import StyledButton from "./StyledButton";
 import PatientCard from "./PatientCard";
-import { Dispatch, SetStateAction, useState } from "react";
-import PatientForm from "./PatientForm";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { getPatientsReq } from "../services/patientApi";
+import { ConfigType, Patient } from "../protocols";
+import UserContext from "../contexts/userContext";
 
 interface DashbordProps {
   setPatientForm: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Dashboard({ setPatientForm }: DashbordProps) {
+  const [data, setData] = useState<Patient[]>([]);
+  const { token } = useContext(UserContext);
+
+  const CONFIG: ConfigType = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  async function getData() {
+    const patients = await getPatientsReq(CONFIG);
+    setData(patients);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Container>
       <TitleDiv>
@@ -19,7 +45,9 @@ export default function Dashboard({ setPatientForm }: DashbordProps) {
         </StyledButton>
       </TitleDiv>
       <PatientDiv>
-        <PatientCard />
+        {data.length > 0
+          ? data.map((patient) => <PatientCard patient={patient} />)
+          : null}
       </PatientDiv>
     </Container>
   );

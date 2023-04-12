@@ -54,11 +54,11 @@ export type User = {
     id: number;
     name: string;
     email: string;
-    password?: string;
-    role?: Role;
-    createdAt?: Date;
-    updatedAt?: Date;
-    Session?: Session;
+    password: string;
+    role: Role;
+    createdAt: Date;
+    updatedAt: Date;
+    Session: Session;
 };
 
 export type PostPatientResponse = {
@@ -72,6 +72,19 @@ export type Session = {
     token: string;
     createdAt?: Date;
     updatedAt?: Date;
+}
+
+export type Patient = {
+    id: number;
+    userId: number;
+    User: User;
+    name: string;
+    email: string;
+    birthday: string;
+    telephone: string;
+    gender: Gender;
+    createdAt: Date;
+    updatedAt: Date
 }
 
 export type ApplicationError = {

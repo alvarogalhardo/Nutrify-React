@@ -44,7 +44,7 @@ export function UserProvider({ children }: ProviderProps) {
   });
 
   const [user, setUser] = useState<UserContextType>(() => {
-    return parsedData.user ? parsedData.user : null;
+    return parsedData?.user ? parsedData.user : null;
   });
 
   useEffect(() => {

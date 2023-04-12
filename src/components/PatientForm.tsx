@@ -67,16 +67,14 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
           userId: user.id,
           birthday: new Date(form.birthday).toISOString(),
         };
-        console.log(data, "data");
-        const response = await postPatientReq(data,CONFIG);
-        console.log(response);
-
+        await postPatientReq(data, CONFIG);
         Alert.fire({
           icon: "success",
           background: "#dde5b6",
           timer: 2000,
           text: "Paciente criado com sucesso!",
         });
+        setPatientForm(false);
       } catch (err) {
         console.log(err);
         Alert.fire({
@@ -117,12 +115,10 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
 
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
     const { value } = e.target;
-    if (value === "MALE") {
-      setForm({ ...form, gender: Gender.MALE });
-    }
-    if (value === "FEMALE") {
-      setForm({ ...form, gender: Gender.FEMALE });
-    }
+    setForm({
+      ...form,
+      gender: value === "MALE" ? Gender.MALE : Gender.FEMALE,
+    });
   }
 
   function handleTelephoneChange(e: ChangeEvent<HTMLInputElement>) {

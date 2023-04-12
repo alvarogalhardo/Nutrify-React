@@ -6,6 +6,11 @@ interface PostPatientReqType extends PatientFormType {
 }
 
 export async function postPatientReq(data: PostPatientReqType, CONFIG: ConfigType): Promise<PostPatientResponse | ApplicationError> {
-    const response = await api.post('/patients', data, CONFIG);
+    const response = await api.post("/patients", data, CONFIG);
     return response.data;
+}
+
+export async function getPatientsReq(CONFIG: ConfigType) {
+    const response = await api.get("/patients", CONFIG);
+    return response.data
 }
