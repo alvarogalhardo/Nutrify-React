@@ -2,14 +2,14 @@ import styled from "styled-components";
 import Title from "./Title";
 import StyledButton from "./StyledButton";
 import PatientCard from "./PatientCard";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import PatientForm from "./PatientForm";
 
-export default function Dashboard() {
-  const [patientForm, setPatientForm] = useState<boolean>(false);
-  console.log(patientForm);
-  
+interface DashbordProps {
+  setPatientForm: Dispatch<SetStateAction<boolean>>;
+}
 
+export default function Dashboard({ setPatientForm }: DashbordProps) {
   return (
     <Container>
       <TitleDiv>
@@ -21,7 +21,6 @@ export default function Dashboard() {
       <PatientDiv>
         <PatientCard />
       </PatientDiv>
-      {patientForm && <PatientForm setPatientForm={setPatientForm}/>}
     </Container>
   );
 }

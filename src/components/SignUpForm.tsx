@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Role, SignUpFormType } from "../protocols";
 import { signUpReq } from "../services/authApi";
-import { AxiosError } from "axios";
 
 const Alert = withReactContent(Swal);
 
@@ -52,10 +51,10 @@ export default function SignUpForm() {
 
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
     const { value } = e.target;
-    if (value === "0") {
+    if (value === "NUTRITIONIST") {
       setForm({ ...form, role: Role.NUTRITIONIST });
     }
-    if (value === "1") {
+    if (value === "PATIENT") {
       setForm({ ...form, role: Role.PATIENT });
     }
   }
@@ -110,7 +109,7 @@ export default function SignUpForm() {
           name="confirmPassword"
           onChange={handleForm}
         />
-        <label>
+        <label htmlFor="role">
           {" "}
           Selecione seu papel
           <Select

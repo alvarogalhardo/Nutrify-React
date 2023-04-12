@@ -1,10 +1,23 @@
+import { MouseEventHandler } from "react";
 import styled from "styled-components";
 
-type OverlayProps = {
+type ContainerProps = {
   blurIntensity: number;
 };
 
-const Overlay = styled.div<OverlayProps>`
+export default function Overlay({
+  blurIntensity,
+}: ContainerProps) {
+  // console.log(pointerEvents);
+
+  return (
+    <>
+      <Container blurIntensity={blurIntensity} />
+    </>
+  );
+}
+
+const Container = styled.div<ContainerProps>`
   position: fixed;
   z-index: 100;
   top: 0;
@@ -14,5 +27,3 @@ const Overlay = styled.div<OverlayProps>`
   backdrop-filter: blur(${(props) => props.blurIntensity}px);
   pointer-events: none;
 `;
-
-export default Overlay;

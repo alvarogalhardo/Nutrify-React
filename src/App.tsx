@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import BlurContext, { BlurProvider } from "./contexts/blurContext";
+import { useContext } from "react";
+import { BlurProvider } from "./contexts/blurContext";
 import UserContext from "./contexts/userContext";
 import AuthRoutes from "./routes/auth.routes";
 import UnauthRoutes from "./routes/unauth.routes";

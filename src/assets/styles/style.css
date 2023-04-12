@@ -4,6 +4,12 @@
 }
 
 body {
-  font-family: "Raleway",sans-serif;
+  font-family: "Raleway", sans-serif;
   background-color: #fefae0;
+}
+
+.react-icons {
+  color: #283618;
+  font-size: 30px;
+  vertical-align: middle;
 }

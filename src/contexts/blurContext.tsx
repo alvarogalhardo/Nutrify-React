@@ -28,7 +28,12 @@ export function BlurProvider({ children }: ProviderProps) {
   const [blurIntensity, setBlurIntensity] = useState(0);
 
   return (
-    <BlurContext.Provider value={{ blurIntensity, setBlurIntensity }}>
+    <BlurContext.Provider
+      value={{
+        blurIntensity,
+        setBlurIntensity,
+      }}
+    >
       {children}
     </BlurContext.Provider>
   );

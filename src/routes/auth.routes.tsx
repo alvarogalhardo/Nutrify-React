@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Overlay from "../components/Overlay";
-import BlurContext, { BlurProvider } from "../contexts/blurContext";
+import BlurContext from "../contexts/blurContext";
 import Home from "../pages/Home";
 
 export default function AuthRoutes() {

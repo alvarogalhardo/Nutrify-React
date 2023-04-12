@@ -8,7 +8,7 @@ import { UserProvider } from "./contexts/userContext";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <UserProvider>
-      <App />
+        <App />
     </UserProvider>
   </React.StrictMode>
 );

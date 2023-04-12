@@ -12,12 +12,12 @@ type ProviderProps = {
   children: ReactNode;
 };
 
-type UserContext = Pick<User, "id" | "email">;
+type UserContextType = Pick<User, "id" | "email">;
 
 export interface UserContextInterface {
-  user: UserContext;
+  user: UserContextType;
   token: string;
-  setUser: Dispatch<SetStateAction<UserContext>>;
+  setUser: Dispatch<SetStateAction<UserContextType>>;
   setToken: Dispatch<SetStateAction<string>>;
 }
 
@@ -27,7 +27,7 @@ const defaultState = {
     email: "",
   },
   token: "",
-  setUser: (user: User) => {},
+  setUser: (user: UserContextType) => {},
   setToken: (token: string) => {},
 } as UserContextInterface;
 
@@ -43,10 +43,8 @@ export function UserProvider({ children }: ProviderProps) {
     return parsedData?.token ? parsedData.token : null;
   });
 
-  delete parsedData?.token;
-
-  const [user, setUser] = useState<UserContext>(() => {
-    return parsedData ? parsedData : null;
+  const [user, setUser] = useState<UserContextType>(() => {
+    return parsedData.user ? parsedData.user : null;
   });
 
   useEffect(() => {
