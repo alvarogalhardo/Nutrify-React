@@ -12,6 +12,7 @@ import {
 import { getPatientsReq } from "../services/patientApi";
 import { ConfigType, Patient } from "../protocols";
 import UserContext from "../contexts/userContext";
+import { AiOutlinePlus } from "react-icons/ai";
 
 interface DashbordProps {
   setPatientForm: Dispatch<SetStateAction<boolean>>;
@@ -41,7 +42,7 @@ export default function Dashboard({ setPatientForm }: DashbordProps) {
       <TitleDiv>
         <Title>Pacientes</Title>
         <StyledButton onClick={() => setPatientForm(true)}>
-          Novo paciente
+          <AiOutlinePlus />
         </StyledButton>
       </TitleDiv>
       <PatientDiv>
@@ -60,6 +61,11 @@ const Container = styled.div`
   border-radius: 20px;
   border: 1px solid #adc178;
   padding: 20px;
+  @media (max-width: 500px){
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
 `;
 
 const TitleDiv = styled.div`

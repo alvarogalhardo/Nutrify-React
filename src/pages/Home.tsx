@@ -3,28 +3,17 @@ import styled from "styled-components";
 import Dashboard from "../components/Dashboard";
 import Header from "../components/Header";
 import PatientForm from "../components/PatientForm";
+import StyledScreen from "../components/StyledScreen";
 
 export default function Home() {
   const [patientForm, setPatientForm] = useState<boolean>(false);
- 
-
   return (
     <>
       <Header />
-      <Container>
+      <StyledScreen>
         <Dashboard setPatientForm={setPatientForm} />
         {patientForm && <PatientForm setPatientForm={setPatientForm} />}
-      </Container>
+      </StyledScreen>
     </>
   );
 }
-
-const Container = styled.div`
-  padding-top: 60px;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-`;

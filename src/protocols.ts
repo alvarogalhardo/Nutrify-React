@@ -1,6 +1,9 @@
 import { AxiosRequestConfig } from "axios";
 import { ReactNode } from "react";
 
+export type ParamsType = {
+    id: string
+}
 export interface ConfigType extends AxiosRequestConfig {
     headers: {
         Authorization: string

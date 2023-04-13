@@ -75,6 +75,7 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
           text: "Paciente criado com sucesso!",
         });
         setPatientForm(false);
+        setBlurIntensity(0)
       } catch (err) {
         console.log(err);
         Alert.fire({
