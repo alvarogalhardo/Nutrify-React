@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -18,6 +18,7 @@ import { ConfigType, Gender, PatientFormType } from "../protocols";
 import UserContext from "../contexts/userContext";
 import StyledButton from "./StyledButton";
 import { postPatientReq } from "../services/patientApi";
+import RenderContext from "../contexts/renderContext";
 interface PatientFormProps {
   setPatientForm: Dispatch<SetStateAction<boolean>>;
 }
@@ -37,6 +38,7 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const { user, token } = useContext(UserContext);
+  const { render, setRender } = useContext(RenderContext);
 
   const CONFIG: ConfigType = {
     headers: {
@@ -75,7 +77,8 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
           text: "Paciente criado com sucesso!",
         });
         setPatientForm(false);
-        setBlurIntensity(0)
+        setBlurIntensity(0);
+        setRender(!render);
       } catch (err) {
         console.log(err);
         Alert.fire({
@@ -174,7 +177,7 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
         />
       </StyledDiv>
       <StyledDiv>
-        <Input
+        <NameInput
           type="email"
           placeholder="E-mail"
           onChange={handleForm}
@@ -205,7 +208,9 @@ export default function PatientForm({ setPatientForm }: PatientFormProps) {
           <option value="FEMALE">Feminino</option>
         </Select>
       </LabelDiv>
-      <StyledButton type="submit">Adicionar</StyledButton>
+      <StyledButton type="submit">
+        <AiOutlinePlus />
+      </StyledButton>
     </StyledForm>
   );
 }
@@ -219,7 +224,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  width: 40vw;
+  width: 400px;
   height: 70vh;
   border-radius: 20px;
   padding: 10px 30px;
@@ -236,6 +241,12 @@ const StyledForm = styled.form`
   }
   ::placeholder {
     padding: 0 5px;
+  }
+  @media (max-width: 500px) {
+    top: 5px;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 `;
 

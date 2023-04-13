@@ -7,6 +7,7 @@ import StyledScreen from "../components/StyledScreen";
 
 export default function Home() {
   const [patientForm, setPatientForm] = useState<boolean>(false);
+
   return (
     <>
       <Header />

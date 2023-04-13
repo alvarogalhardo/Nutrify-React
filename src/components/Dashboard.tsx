@@ -13,6 +13,9 @@ import { getPatientsReq } from "../services/patientApi";
 import { ConfigType, Patient } from "../protocols";
 import UserContext from "../contexts/userContext";
 import { AiOutlinePlus } from "react-icons/ai";
+import StyledDashboard from "./StyledDashboard";
+import TitleDiv from "./StyledTitleDiv";
+import RenderContext from "../contexts/renderContext";
 
 interface DashbordProps {
   setPatientForm: Dispatch<SetStateAction<boolean>>;
@@ -21,6 +24,7 @@ interface DashbordProps {
 export default function Dashboard({ setPatientForm }: DashbordProps) {
   const [data, setData] = useState<Patient[]>([]);
   const { token } = useContext(UserContext);
+  const { render } = useContext(RenderContext);
 
   const CONFIG: ConfigType = {
     headers: {
@@ -35,10 +39,10 @@ export default function Dashboard({ setPatientForm }: DashbordProps) {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [render]);
 
   return (
-    <Container>
+    <StyledDashboard>
       <TitleDiv>
         <Title>Pacientes</Title>
         <StyledButton onClick={() => setPatientForm(true)}>
@@ -47,33 +51,14 @@ export default function Dashboard({ setPatientForm }: DashbordProps) {
       </TitleDiv>
       <PatientDiv>
         {data.length > 0
-          ? data.map((patient) => <PatientCard patient={patient} />)
+          ? data.map((patient) => (
+              <PatientCard patient={patient} key={patient.id} />
+            ))
           : null}
       </PatientDiv>
-    </Container>
+    </StyledDashboard>
   );
 }
-
-const Container = styled.div`
-  background-color: #f0ead2;
-  width: 90%;
-  height: 90%;
-  border-radius: 20px;
-  border: 1px solid #adc178;
-  padding: 20px;
-  @media (max-width: 500px){
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
-`;
-
-const TitleDiv = styled.div`
-  height: 15%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
 
 const PatientDiv = styled.div`
   display: flex;

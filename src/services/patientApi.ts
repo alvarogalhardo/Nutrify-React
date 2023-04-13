@@ -15,7 +15,12 @@ export async function getPatientsReq(CONFIG: ConfigType) {
     return response.data
 }
 
-export async function getPatientByIdReq(CONFIG:ConfigType, id:number) {
-    const response = await api.get(`/patients/${id}`,CONFIG);
+export async function getPatientByIdReq(CONFIG: ConfigType, id: number) {
+    const response = await api.get(`/patients/${id}`, CONFIG);
     return response.data
 }
+
+export async function deletePatientByIdReq(CONFIG: ConfigType, id: number) {
+    const response = await api.delete(`/patients/${id}`, CONFIG);
+    return response.data
+}  
