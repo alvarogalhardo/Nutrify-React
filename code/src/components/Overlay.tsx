@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react";
 import styled from "styled-components";
 
 type ContainerProps = {
@@ -8,8 +7,6 @@ type ContainerProps = {
 export default function Overlay({
   blurIntensity,
 }: ContainerProps) {
-  // console.log(pointerEvents);
-
   return (
     <>
       <Container blurIntensity={blurIntensity} />

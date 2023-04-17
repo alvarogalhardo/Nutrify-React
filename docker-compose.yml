@@ -2,7 +2,7 @@ services:
   react:
     container_name: react
     build: ./code
-    image: fullstack/backend
+    image: fullstack/frontend
     volumes:
       - react-volume:/var/www/html
 

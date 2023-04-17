@@ -94,3 +94,7 @@ export type ApplicationError = {
     name: string;
     message: string;
 };
+
+export interface PatientProps {
+    data: Patient | undefined;
+  }

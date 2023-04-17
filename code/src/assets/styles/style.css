@@ -7,6 +7,41 @@ body {
   font-family: "Raleway", sans-serif;
   background-color: #fefae0;
 }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #283618 #FEFAE0;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+  width: 5px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #FEFAE0;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #A98467;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #FEFAE0;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #283618;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #DDE5B6;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #283618;
+}
 
 .react-icons {
   color: #283618;

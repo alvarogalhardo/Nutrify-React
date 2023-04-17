@@ -7,6 +7,8 @@ const StyledDashboard = styled.div`
   border-radius: 20px;
   border: 1px solid #adc178;
   padding: 20px;
+  overflow-y: scroll;
+
   @media (max-width: 500px) {
     width: 100%;
     height: 100%;
