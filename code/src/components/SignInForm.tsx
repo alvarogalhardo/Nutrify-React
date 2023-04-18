@@ -19,19 +19,16 @@ export default function SignInForm() {
   function storeData(params: SignInResponse) {
     window.localStorage.setItem("Nutrify", JSON.stringify(params));
   }
-console.log(form);
 
   async function submitForm(e: FormEvent) {
     e.preventDefault();
     const { email, password } = form;
-
     if (checkForm()) {
       try {
         const response = await signInReq(email, password);
         storeData(response);
         setUser(response.user);
         setToken(response.token);
-
         Alert.fire({
           icon: "success",
           background: "#dde5b6",
@@ -39,8 +36,7 @@ console.log(form);
           text: "Acessado com sucesso!",
         });
       } catch (err) {
-        console.log(err);
-        
+        console.error(err);
         Alert.fire({
           icon: "error",
           background: "#f0ead2",

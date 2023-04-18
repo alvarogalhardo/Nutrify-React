@@ -9,6 +9,7 @@ import StyledDashboard from "./StyledDashboard";
 import StyledTitleDiv from "./StyledTitleDiv";
 
 export default function PhysicalAssessmentDashboard({ data }: PatientProps) {
+  
   return (
     <StyledDashboard>
       <StyledTitleDiv>
@@ -24,7 +25,7 @@ export default function PhysicalAssessmentDashboard({ data }: PatientProps) {
         <h1>{data?.telephone}</h1>
         <h1>{dayjs(data?.birthday).format("DD/MM/YYYY")}</h1>
       </Infos>
-      <PhysicalAssessmentForm />
+      <PhysicalAssessmentForm patientId={data?.id}/>
     </StyledDashboard>
   );
 }
@@ -41,28 +42,6 @@ const Infos = styled.div`
   }
 `;
 
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  @media (max-width: 800px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const Button = styled.button`
-  font: inherit;
-  color: #fefae0;
-  background-color: #283618;
-  width: 250px;
-  height: 70px;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  @media (max-width: 800px) {
-    width: 100%;
-  }
-`;
 
 const Title = styled.h1`
   font-size: 40px;

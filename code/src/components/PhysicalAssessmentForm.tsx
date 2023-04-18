@@ -1,10 +1,89 @@
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import { ConfigType } from "../protocols";
+import UserContext from "../contexts/userContext";
+import { postPhysicalReq } from "../services/physicalApi";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-export default function PhysicalAssessmentForm() {
+const Alert = withReactContent(Swal);
+
+type PhysicalFormType = {
+  patientId: number | undefined;
+};
+
+export default function PhysicalAssessmentForm({
+  patientId,
+}: PhysicalFormType) {
+  const [physicalForm, setPhysicalForm] = useState({});
+  const [skinFoldsForm, setSkinFoldsForm] = useState({});
+  const [circumferenceForm, setCircumferenceForm] = useState({});
+  const [boneDiameterForm, setBoneDiameterForm] = useState({});
+
+  const { token } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const CONFIG: ConfigType = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+
+  function handleForm(e: ChangeEvent<HTMLInputElement>, form: string) {
+    const { name, value } = e.target;
+    switch (form) {
+      case "physical":
+        setPhysicalForm({ ...physicalForm, [name]: parseInt(value) });
+        break;
+      case "skin-folds":
+        setSkinFoldsForm({ ...skinFoldsForm, [name]: parseInt(value) });
+        break;
+      case "circumference":
+        setCircumferenceForm({ ...circumferenceForm, [name]: parseInt(value) });
+        break;
+      case "bone-diameter":
+        setBoneDiameterForm({ ...boneDiameterForm, [name]: parseInt(value) });
+      default:
+        break;
+    }
+  }
+
+  async function submitForm(e: FormEvent) {
+    e.preventDefault();
+    const physicalFormWithPatientId = {...physicalForm,patientId}
+    console.log(physicalFormWithPatientId);
+    
+    try {
+      await postPhysicalReq(
+        physicalFormWithPatientId,
+        skinFoldsForm,
+        circumferenceForm,
+        boneDiameterForm,
+        CONFIG
+      );
+      Alert.fire({
+        icon: "success",
+        background: "#dde5b6",
+        timer: 2000,
+        text: "Avaliação criada com sucesso!",
+      });
+      navigate(`/patient/${patientId}`);
+    } catch (err) {
+      console.log(err);
+      Alert.fire({
+        icon: "error",
+        background: "#f0ead2",
+        timer: 2000,
+        text: "Algo deu errado, preencha os campos e tente novamente",
+      });
+    }
+  }
+
   return (
-    <StyledForm>
+    <StyledForm onSubmit={submitForm}>
       <h1>Dados Básicos:</h1>
       <StyledDiv>
         <label htmlFor="weight-input">
@@ -14,6 +93,8 @@ export default function PhysicalAssessmentForm() {
             id="weight-input"
             name="weight"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "physical")}
           />
         </label>
         <label htmlFor="height-input">
@@ -23,6 +104,8 @@ export default function PhysicalAssessmentForm() {
             id="height-input"
             name="height"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "physical")}
           />
         </label>
         <label htmlFor="sitting-height-input">
@@ -30,8 +113,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="sitting-height-input"
-            name="sitting-height"
+            name="sittingHeight"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "physical")}
           />
         </label>
         <label htmlFor="knee-height-input">
@@ -39,8 +124,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="knee-height-input"
-            name="knee-height"
+            name="kneeHeight"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "physical")}
           />
         </label>
       </StyledDiv>
@@ -51,8 +138,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="triceps-input"
-            name="triceps-skinfold"
+            name="triceps"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="biceps-input">
@@ -60,8 +149,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="biceps-input"
-            name="biceps-skinfold"
+            name="biceps"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="abdominal-input">
@@ -69,8 +160,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="abdominal-input"
-            name="abdominal-skinfold"
+            name="abdominal"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="subscapular-input">
@@ -78,8 +171,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="subscapular-input"
-            name="subscapular-skinfold"
+            name="subscapular"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="mid-axilary-input">
@@ -87,8 +182,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="mid-axilary-input"
-            name="mid-axilary-skinfold"
+            name="midAxillary"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="thigh-input">
@@ -96,8 +193,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="thigh-input"
-            name="thigh-skinfold"
+            name="thigh"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="thoracic-input">
@@ -105,8 +204,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="thoracic-input"
-            name="thoracic-skinfold"
+            name="thoracic"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="suprailiac-input">
@@ -114,8 +215,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="suprailiac-input"
-            name="suprailiac-skinfold"
+            name="suprailiac"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="calf-input">
@@ -123,8 +226,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="calf-input"
-            name="calf-skinfold"
+            name="calf"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="waist-input">
@@ -132,8 +237,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="waist-input"
-            name="waist-skinfold"
+            name="waist"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="hip-input">
@@ -141,8 +248,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="hip-input"
-            name="hip-skinfold"
+            name="hip"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
         <label htmlFor="supraspinatus-input">
@@ -150,8 +259,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="supraspinatus-input"
-            name="supraspinatus-skinfold"
+            name="supraspinatus"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "skin-folds")}
           />
         </label>
       </StyledDiv>
@@ -162,8 +273,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="neck-input"
-            name="neck-circumference"
+            name="neckCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="chest-input">
@@ -171,8 +284,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="chest-input"
-            name="chest-circumference"
+            name="chestCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="shoulder-input">
@@ -180,8 +295,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="shoulder-input"
-            name="shoulder-circumference"
+            name="shoulderCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="waist-input">
@@ -189,8 +306,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="waist-input"
-            name="waist-circumference"
+            name="waistCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="hip-input">
@@ -198,8 +317,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="hip-input"
-            name="hip-circumference"
+            name="hipCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="abdomen-input">
@@ -207,8 +328,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="abdomen-input"
-            name="abdomen-circumference"
+            name="abdomenCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="relaxed-right-arm-input">
@@ -216,8 +339,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="relaxed-right-arm-input"
-            name="relaxed-right-arm-circumference"
+            name="relaxed_right_armCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="contracted-right-arm-input">
@@ -225,8 +350,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="contracted-right-arm-input"
-            name="contracted-right-arm-circumference"
+            name="contracted_right_armCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="relaxed-left-arm-input">
@@ -234,17 +361,21 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="relaxed-left-arm-input"
-            name="relaxed-left-arm-circumference"
+            name="relaxed_left_armCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="contracted-left-arm-input">
-          Braço esqeurdo contraído
+          Braço esquerdo contraído
           <StyledInput
             type="number"
             id="contracted-left-arm-input"
-            name="contracted-left-arm-circumference"
+            name="contracted_left_armCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="forearm-input">
@@ -252,8 +383,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="forearm-input"
-            name="forearm-circumference"
+            name="forearmCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="thigh-input">
@@ -261,8 +394,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="thigh-input"
-            name="thigh-circumference"
+            name="thighCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
         <label htmlFor="calf-input">
@@ -270,8 +405,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="calf-input"
-            name="calf-circumference"
+            name="calfCircumference"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "circumference")}
           />
         </label>
       </StyledDiv>
@@ -282,8 +419,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="humerus-input"
-            name="humerus-circumference"
+            name="humerus"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "bone-diameter")}
           />
         </label>
         <label htmlFor="wrist-input">
@@ -291,8 +430,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="wrist-input"
-            name="wrist-circumference"
+            name="wrist"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "bone-diameter")}
           />
         </label>
         <label htmlFor="femur-input">
@@ -300,8 +441,10 @@ export default function PhysicalAssessmentForm() {
           <StyledInput
             type="number"
             id="femur-input"
-            name="femur-circumference"
+            name="femur"
             maxLength={3}
+            required
+            onChange={(e) => handleForm(e, "bone-diameter")}
           />
         </label>
       </StyledDiv>

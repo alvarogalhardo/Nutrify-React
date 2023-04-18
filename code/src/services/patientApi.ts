@@ -1,6 +1,5 @@
 import { ApplicationError, ConfigType, PatientFormType, PostPatientResponse } from '../protocols';
 import api from './api';
-
 interface PostPatientReqType extends PatientFormType {
     userId: number
 }

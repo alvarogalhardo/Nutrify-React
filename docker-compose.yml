@@ -2,16 +2,16 @@ services:
   react:
     container_name: react
     build: ./code
-    image: fullstack/frontend
+    image: nutrify/frontend
     volumes:
       - react-volume:/var/www/html
 
   nginx:
     container_name: nginx
     build: ./nginx
-    image: fullstack/nginx
+    image: nutrify/nginx
     networks:
-      - fullstack-network
+      - nutrify-network
     ports:
       - 80:80
     volumes:
@@ -20,8 +20,8 @@ services:
       - react
 
 networks:
-  fullstack-network:
-    name: fullstack-network
+  nutrify-network:
+    name: nutrify-network
     external: true
 
 volumes:
