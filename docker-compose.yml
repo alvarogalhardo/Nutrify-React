@@ -5,6 +5,8 @@ services:
     image: nutrify/frontend
     volumes:
       - react-volume:/var/www/html
+    networks:
+      - nutrify-network
 
   nginx:
     container_name: nginx
