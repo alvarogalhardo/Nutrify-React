@@ -1,8 +1,7 @@
 services:
   react:
     container_name: react
-    build: ./front-end/code
-    image: nutrify/frontend
+    build: ./code
     volumes:
       - react-volume:/var/www/html
     networks:
