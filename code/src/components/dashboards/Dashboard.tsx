@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Title from "./Title";
-import StyledButton from "./StyledButton";
-import PatientCard from "./PatientCard";
+import Title from "../Title";
+import StyledButton from "../StyledButton";
+import PatientCard from "../PatientCard";
 import {
   Dispatch,
   SetStateAction,
@@ -9,13 +9,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getPatientsReq } from "../services/patientApi";
-import { ConfigType, Patient } from "../protocols";
-import UserContext from "../contexts/userContext";
+import { getPatientsReq } from "../../services/patientApi";
+import { ConfigType, Patient } from "../../protocols";
+import UserContext from "../../contexts/userContext";
 import { AiOutlinePlus } from "react-icons/ai";
 import StyledDashboard from "./StyledDashboard";
-import TitleDiv from "./StyledTitleDiv";
-import RenderContext from "../contexts/renderContext";
+import TitleDiv from "../StyledTitleDiv";
+import RenderContext from "../../contexts/renderContext";
 
 interface DashbordProps {
   setPatientForm: Dispatch<SetStateAction<boolean>>;

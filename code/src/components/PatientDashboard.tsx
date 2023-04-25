@@ -5,10 +5,11 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import StyledButton from "./StyledButton";
-import StyledDashboard from "./StyledDashboard";
+import StyledDashboard from "./dashboards/StyledDashboard";
 import StyledTitleDiv from "./StyledTitleDiv";
 import "dayjs/locale/pt-br";
-import { Patient, PatientProps } from "../protocols";
+import {  PatientProps } from "../protocols";
+import PhysicalDashboard from "./dashboards/PhysicalDashboard";
 
 const Alert = withReactContent(Swal);
 
@@ -45,6 +46,7 @@ export default function PatientDashboard({ data }: PatientProps) {
         <Button onClick={soon}>Criar planejamento alimentar</Button>
         <Button onClick={soon}>Criar anamnese</Button>
       </ButtonDiv>
+      <PhysicalDashboard />
     </StyledDashboard>
   );
 }
@@ -73,9 +75,9 @@ const ButtonDiv = styled.div`
 const Button = styled.button`
   font: inherit;
   color: #fefae0;
-  background-color: #283618;
+  background-color: #606c38;
   width: 250px;
-  height: 70px;
+  height: 50px;
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 10px;

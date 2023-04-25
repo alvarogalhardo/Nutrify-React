@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../components/dashboards/Dashboard";
 import Header from "../components/Header";
 import PatientForm from "../components/PatientForm";
 import StyledScreen from "../components/StyledScreen";

@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
-import PhysicalAssessmentDashboard from "../components/PhysicalAssessmentDashboard";
+import PhysicalAssessmentDashboard from "../components/dashboards/PhysicalAssessmentDashboard";
 import StyledScreen from "../components/StyledScreen";
 import UserContext from "../contexts/userContext";
 import { ConfigType, ParamsType, Patient } from "../protocols";
 import { getPatientByIdReq } from "../services/patientApi";
 
-export default function PhysicalAssessmentPage() {
+export default function PhysicalAssessmentFormPage() {
   const { id } = useParams<keyof ParamsType>() as ParamsType;
   const [data, setData] = useState<Patient>();
   const { token } = useContext(UserContext);

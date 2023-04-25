@@ -1,4 +1,4 @@
-import { ApplicationError, ConfigType, PatientFormType, PostPatientResponse } from '../protocols';
+import { ApplicationError, ConfigType, Patient, PatientFormType, PostPatientResponse } from '../protocols';
 import api from './api';
 interface PostPatientReqType extends PatientFormType {
     userId: number
@@ -9,17 +9,17 @@ export async function postPatientReq(data: PostPatientReqType, CONFIG: ConfigTyp
     return response.data;
 }
 
-export async function getPatientsReq(CONFIG: ConfigType) {
+export async function getPatientsReq(CONFIG: ConfigType): Promise<Patient[]> {
     const response = await api.get("/patients", CONFIG);
     return response.data
 }
 
-export async function getPatientByIdReq(CONFIG: ConfigType, id: number) {
+export async function getPatientByIdReq(CONFIG: ConfigType, id: number): Promise<Patient> {
     const response = await api.get(`/patients/${id}`, CONFIG);
     return response.data
 }
 
-export async function deletePatientByIdReq(CONFIG: ConfigType, id: number) {
+export async function deletePatientByIdReq(CONFIG: ConfigType, id: number): Promise<Patient> {
     const response = await api.delete(`/patients/${id}`, CONFIG);
     return response.data
 }  

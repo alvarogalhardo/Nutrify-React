@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import { IoIosReturnLeft } from "react-icons/io";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { PatientProps } from "../protocols";
-import PhysicalAssessmentForm from "./PhysicalAssessmentForm";
-import StyledButton from "./StyledButton";
+import { PatientProps } from "../../protocols";
+import PhysicalAssessmentForm from "../PhysicalAssessmentForm";
+import StyledButton from "../StyledButton";
 import StyledDashboard from "./StyledDashboard";
-import StyledTitleDiv from "./StyledTitleDiv";
+import StyledTitleDiv from "../StyledTitleDiv";
 
 export default function PhysicalAssessmentDashboard({ data }: PatientProps) {
   

@@ -4,7 +4,8 @@ import Overlay from "../components/Overlay";
 import BlurContext from "../contexts/blurContext";
 import Home from "../pages/Home";
 import PatientPage from "../pages/PatientPage";
-import PhysicalAssessmentPage from "../pages/PhysicalAssesmentPage";
+import PhysicalAssessmentDetails from "../pages/PhysicalAssessmentDetails";
+import PhysicalAssessmentFormPage from "../pages/PhysicalAssesmentFormPage";
 
 export default function AuthRoutes() {
   const { blurIntensity } = useContext(BlurContext);
@@ -15,7 +16,14 @@ export default function AuthRoutes() {
       <Routes>
         <Route index element={<Home />} path={"/"} />
         <Route element={<PatientPage />} path={"/patient/:id"} />
-        <Route element={<PhysicalAssessmentPage />} path={"/physical/:id"} />
+        <Route
+          element={<PhysicalAssessmentFormPage />}
+          path={"/physical/:id"}
+        />
+        <Route
+          element={<PhysicalAssessmentDetails />}
+          path={"/physical/details/:physicalId"}
+        />
       </Routes>
     </BrowserRouter>
   );
